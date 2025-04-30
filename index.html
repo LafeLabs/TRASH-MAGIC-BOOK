@@ -44,6 +44,7 @@ LANGUAGE IS HOW THE MIND PARSES REALITY
 <div id = "scrollscroll"></div>
 <div id  = "scrollsbox">
     <a href = "edit-book.html">edit-book.html</a><br>
+    <a id = "editlink">edit current file</a><br>
 </div>
 
 <script>
@@ -80,7 +81,7 @@ localfile = true;
 
 function loadscroll(scrollname){
     filename = scrollname;
-
+    document.getElementById("editlink").href = "edit-markdown-file.php?filename=" + filename;
     document.getElementById("scrollscroll").innerHTML = "";
     document.getElementById("scrollscroll").style.display = "block";
     var httpc666 = new XMLHttpRequest();

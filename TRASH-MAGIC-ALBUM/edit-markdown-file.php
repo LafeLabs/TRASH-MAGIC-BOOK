@@ -23,27 +23,41 @@ https://cloud9-sdk.readme.io/docs/language-mode
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
 
-<title>HTML CODE EDITOR!</title>
+<title>MARKDOWN CODE EDITOR!</title>
 
 </head>
-<body>
+<div class = "data" id = "filenamediv"><?php
+    
+if(isset($_GET["filename"])){
+    echo $_GET["filename"];
+}
+else{
+    echo "README.md";
+}
 
+?></div>
+<body>
+<style>
+    a{
+        font-family:Comic Sans MS;
+        color:#ff2cb4;
+        font-size:2em;
+        z-index:10;
+    }
+</style>
 <div id = "lightdarkbutton" class = "button">LIGHT MODE</div>
 
-<a id = "homelink" href=  "index.html" style = "position:absolute;right:5px;top:1.5em;font-size:2em;font-family:Comic Sans MS">HOME</a>
+<a id = "readlink" style = "position:absolute;left:1em;top:1em;"></a>
+<a href=  "read-book.html" style = "position:absolute;right:5px;top:1.5em;font-size:2em;font-family:Comic Sans MS">read-book.html</a>
 
 <a href=  "generate-dna.php" style = "position:absolute;right:5px;top:3.5em;font-size:2em;font-family:Comic Sans MS">generate-dna.php</a>
 
-<a href=  "edit-php.html" style = "position:absolute;right:5px;top:5.5em;font-size:2em;font-family:Comic Sans MS">edit-php.html</a>
+<a href=  "delete-markdown.html" style = "position:absolute;right:5px;top:5.5em;font-size:2em;font-family:Comic Sans MS">delete-markdown.html</a>
 
 <table id = "inputtable">
     <tr>
         <td>Current File Name:</td>
         <td id = "currentfilename"></td>
-    </tr>
-    <tr>
-        <td>New File Name(end with .html, .js, .css, .txt, .py, .ino, .md):</td>
-        <td><input id = "newscrollinput"/></td>
     </tr>
 </table>
 
@@ -57,21 +71,16 @@ https://cloud9-sdk.readme.io/docs/language-mode
 <script>
 
 prototypescroll = "name";
-arduinoprototype = "//name\nvoid setup(){\n\n}\nvoid loop() {\n\n}\n";
-htmlprototype = "<!doctype html>\n<html>\n<head>\n<title>name</title>\n<meta charset=\"utf-8\">\n</head>\n<body>\n</body>\n</html>\n";
-pythonprototype = "# name\n# new python program";
-
-
 
 editor = ace.edit("maineditor");
 editor.setTheme("ace/theme/github");
 //editor.setTheme("ace/theme/vibrant_ink");
-editor.getSession().setMode("ace/mode/html");
+editor.getSession().setMode("ace/mode/markdown");
 editor.getSession().setUseWrapMode(true);
 editor.$blockScrolling = Infinity;
 editor.setTheme("ace/theme/vibrant_ink");
 
-currentFile = "index.html";
+currentFile = document.getElementById("filenamediv").innerHTML;
 var httpc = new XMLHttpRequest();
 httpc.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -79,21 +88,14 @@ httpc.onreadystatechange = function() {
         setmode();
         editor.setValue(filedata);
         document.getElementById("currentfilename").innerHTML = currentFile;
+        document.getElementById("readlink").innerHTML = currentFile;
+        document.getElementById("readlink").href =  "read-markdown-file.php?filename=" + currentFile;
+        
     }
 };
 httpc.open("GET", "load-file.php?filename=" + currentFile, true);
 httpc.send();
 
-
-
-var httpcprototype = new XMLHttpRequest();
-httpcprototype.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        htmlprototype = this.responseText;
-    }
-};
-httpcprototype.open("GET", "load-file.php?filename=index.html", true);
-httpcprototype.send();
 
 
 scrolls = [];
@@ -102,23 +104,11 @@ httpc8.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         scrolls = JSON.parse(this.responseText);
         for(var index = 0;index < scrolls.length;index++) {    
-            if(scrolls[index].substring(scrolls[index].length-5,scrolls[index].length) == ".html" || scrolls[index].substring(scrolls[index].length-4,scrolls[index].length) == ".css" || scrolls[index].substring(scrolls[index].length-3,scrolls[index].length) == ".js"  || scrolls[index].substring(scrolls[index].length-3,scrolls[index].length) == ".py" || scrolls[index].substring(scrolls[index].length-4,scrolls[index].length) == ".txt" || scrolls[index].substring(scrolls[index].length-4,scrolls[index].length) == ".ino" || scrolls[index].substring(scrolls[index].length-5,scrolls[index].length) == ".json" || scrolls[index].substring(scrolls[index].length-4,scrolls[index].length) == ".tex" || scrolls[index].substring(scrolls[index].length - 3,scrolls[index].length) == ".md"){
+            if(scrolls[index].substring(scrolls[index].length - 3,scrolls[index].length) == ".md" || scrolls[index].substring(scrolls[index].length - 3,scrolls[index].length) == ".MD"){
              
-                if(scrolls[index].substring(scrolls[index].length-5,scrolls[index].length) == ".html"){
-                    var newa = document.createElement("A");
-                    newa.innerHTML = scrolls[index];
-                    newa.href = scrolls[index];
-                    document.getElementById("filescroll").appendChild(newa);
-                 }             
                 var newscrollbutton = document.createElement("div");
                 newscrollbutton.classList.add("file");
                 newscrollbutton.classList.add("html");
-                if(scrolls[index].substring(scrolls[index].length-3,scrolls[index].length) == ".js"){
-                    newscrollbutton.style.borderColor = "red";
-                }
-                if(scrolls[index].substring(scrolls[index].length-4,scrolls[index].length) == ".css"){
-                    newscrollbutton.style.borderColor = "yellow";
-                }
 
                 newscrollbutton.innerHTML =  scrolls[index];
                 document.getElementById("filescroll").appendChild(newscrollbutton);
@@ -133,13 +123,15 @@ httpc8.onreadystatechange = function() {
                             editor.setValue(filedata);
                             var fileType = currentFile.split("/")[0]; 
                             var fileName = currentFile.split("/")[1];
-                            //document.getElementById("newscrollinput").value = fileName;
+
                         }
                     };
                     httpc.open("GET", "load-file.php?filename=" + currentFile, true);
                     httpc.send();
                     
                     document.getElementById("currentfilename").innerHTML = currentFile;
+                    document.getElementById("readlink").innerHTML = currentFile;
+                    document.getElementById("readlink").href =  "read-markdown-file.php?filename=" + currentFile;
                     
                 }
                 
@@ -167,61 +159,14 @@ document.getElementById("maineditor").onkeyup = function(){
 
 document.body.style.backgroundColor = "#202020";
 document.body.style.color = "white";
-document.getElementById("newscrollinput").style.backgroundColor = "#202020";
-document.getElementById("newscrollinput").style.color = "white";        
 
 editor.setTheme("ace/theme/vibrant_ink");
 
         
-document.getElementById("newscrollinput").value = "";
 
 name = "";
-document.getElementById("newscrollinput").onchange = function(){
-    name = this.value;
-    currentFile = name;
-    scroll = editor.getSession().getValue();
-
-    setmode();
-    editor.setValue(scroll);  
-    data = encodeURIComponent(scroll);
-    var httpc = new XMLHttpRequest();
-    var url = "save-file.php";        
-    httpc.open("POST", url, true);
-    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-    httpc.send("data="+data+"&filename=" + currentFile);//send text to save-file.php
-    addcodelink(name);
-    document.getElementById("currentfilename").innerHTML = currentFile;
-
-}
 
 
-function addcodelink(codename){
-    var newscrollbutton = document.createElement("div");
-    newscrollbutton.classList.add("file");
-    newscrollbutton.classList.add("html");
-    newscrollbutton.innerHTML = codename;
-    document.getElementById("filescroll").appendChild(newscrollbutton);
-    newscrollbutton.onclick = function(){
-        currentFile = this.innerHTML;
-        //use php script to load current file;
-        var httpc = new XMLHttpRequest();
-        httpc.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                filedata = this.responseText;
-                setmode();
-                editor.setValue(filedata);
-                var fileType = currentFile.split("/")[0]; 
-                var fileName = currentFile.split("/")[1];
-                document.getElementById("newscrollinput").value = fileName;
-            }
-        };
-        httpc.open("GET", "load-file.php?filename=" + currentFile, true);
-        httpc.send();
-                
-        document.getElementById("currentfilename").innerHTML = currentFile;
-                
-    }
-}
 
 
 function setmode(){
@@ -269,13 +214,11 @@ document.getElementById("lightdarkbutton").onclick = function(){
         document.getElementById("lightdarkbutton").style.borderColor = "black";
         
         document.getElementById("filescroll").style.backgroundColor = "white";
-        document.getElementById("homelink").style.color = "blue";
 
         document.getElementById("filescroll").style.color = "black";        
         document.getElementById("currentfilename").style.backgroundColor = "#eeeeee";
         document.getElementById("currentfilename").style.color = "black";
-        document.getElementById("newscrollinput").style.color = "black";
-        document.getElementById("newscrollinput").style.backgroundColor = "white";
+
         document.body.style.backgroundColor = "#b0b0b0";
         document.body.style.color = "black";
         document.getElementById("lightdarkbutton").innerHTML = "DARK MODE";
@@ -293,15 +236,13 @@ document.getElementById("lightdarkbutton").onclick = function(){
         
         document.body.style.backgroundColor = "#404040";
         document.body.style.color = "white";
-        document.getElementById("homelink").style.color = "#ff2cb4";
-        
+
         document.getElementById("filescroll").style.backgroundColor = "#101010";        
         document.getElementById("filescroll").style.color = "white";        
         
         document.getElementById("currentfilename").style.backgroundColor = "#101010";        
-        document.getElementById("currentfilename").style.color = "white"
-        document.getElementById("newscrollinput").style.color = "white";
-        document.getElementById("newscrollinput").style.backgroundColor = "black";        
+        document.getElementById("currentfilename").style.color = "white";
+
         document.getElementById("lightdarkbutton").innerHTML = "LIGHT MODE";        
         editor.setTheme("ace/theme/vibrant_ink");
 
@@ -322,10 +263,6 @@ a{
     top:10px;
     font-size:1.5em;
     font-family:Comic Sans MS;
-}
-#newscrollinput{
-    font-family:courier;
-    
 }
 #linktable{
     position:absolute;
@@ -352,6 +289,9 @@ input{
 }
 .files:active{
     background-color:yellow;
+}
+.data{
+    display:none;
 }
 #filescroll{
     position:absolute;

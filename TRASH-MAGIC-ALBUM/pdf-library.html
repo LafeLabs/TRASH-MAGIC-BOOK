@@ -50,50 +50,15 @@ CAPS LOCK ALWAYS ON!
         margin-bottom:0.25em;
         border-radius:0.125em;
     }
-    PRE{
-        BACKGROUND-COLOR:BLACK;
-        COLOR:#00FF00;
-        FONT-FAMILY:COURIER;
-        FONT-SIZE:2EM;
-        BORDER:SOLID;
-        BORDER-COLOR:#00FF00;
-        PADDING: 1EM 1EM 1EM 1EM;
-        WIDTH:90%;
-        MARGIN:AUTO;
-        MARGIN-TOP:1EM;
-    }
 </style>
 <body>
     <div id = "qrcode"></div>
-    <H1>TRASH MAGIC ALBUM!</H1>
+    <H1>TRASH MAGIC PDF LIBRARY!</H1>
     <P>TRASH MAGIC IS SELF-REPLICATING MEDIA ON THE WORLD WIDE WEB!</P>
-    <P>TO CREATE A NEW ALBUM, USE THE BRANCH PROGRAM TO CREATE A NEW BRANCH, THEN PUT YOUR SONGS IN THE NEW FOLDER YOU CREATED!</P>
-    <P>
-        ON LINUX SERVERS YOU WILL NEED TO POSSIBLY RE-SET THE PERMISSIONS TO MAKE SURE ALL FILES ARE WORLD READABLE!
-    </P>
-    <PRE>
-        cd /var/www/html
-        sudo chmod -R 0777 *
-    </PRE>
-    <P>
-        AFTER YOU CREATE THE NEW ALBUM, DELETE ALL THIS TEXT AND PUT IN THE TEXT FOR YOUR ALBUM!
-    </P>
-    
-    <P>
-        REPLICATE THE ALBUM CODE AND TRACKS ON THUMB DRIVES YOU CARRY WITH YOU IN PUBLIC SPACES!
-    </P>
-    <P>
-        USE THE FREEBOX TO SHARE IMAGES INCLUDING ABLUM ART!
-    </P>
-    <P>
-        USE TRASH MAGIC SQUARES TO BUILD SYMBOLS FOR THE ALBUM!
-    </P>
-    
     <div id = "freebox"></div>
-    <div id = "tracklist"></div>
+    <div id = "library"></div>
     <textarea id = "wall"></textarea>
-    <A HREF = "index.html">index.html</A>
-    <A HREF = "read-book.html">READ THE TRASH MAGIC BOOK!</A>
+
     <a href = "../">UP TO NEXT HIGHER LEVEL IN TRASH MAGIC TREE!</a> 
     <a href = "edit-index.html">edit-index.html</a>
     <a href = "freebox.html">freebox.html</a>
@@ -101,35 +66,28 @@ CAPS LOCK ALWAYS ON!
     <a href = "edit-php.html">edit-php.html</a>
     <a href = "readme.html">readme.html</a>
     <a href = "branch.html">branch.html</a>
-    <a HREF = "squares.html">squares.html</a>
-    <a href = "geometron-squares.html">geometron-squares.html</a>
     <div id = "tree"></div>
 
 
 <script>
 
 
-tracks = [];
+pdfs = [];
 var httpc = new XMLHttpRequest();
 httpc.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        tracks = JSON.parse(this.responseText);
-        listhtml = "<track-list>\n";
-        listhtml += "  <ol slot = \"tracks\">\n";
-        for(var index = 0;index < tracks.length;index++){
-            if(tracks[index].substring(tracks[index].length-4,tracks[index].length) == ".mp3" || tracks[index].substring(tracks[index].length-4,tracks[index].length) == ".wav"){
-                listhtml += "    <li>\n";
-                listhtml += "      <strong>" + tracks[index] + "</strong>\n";
-            listhtml += "      <audio controls src = \"" + tracks[index] + "\"></audio>\n";
-                listhtml += "    </li>\n";                
+        pdfs = JSON.parse(this.responseText);
+        for(var index = 0;index < pdfs.length;index++){
+            if(pdfs[index].substring(pdfs[index].length-4,pdfs[index].length) == ".pdf" || pdfs[index].substring(pdfs[index].length-4,pdfs[index].length) == ".PDF"){
+                var newa = document.createElement("A");
+                newa.href = pdfs[index];
+                newa.innerHTML = pdfs[index];
+                document.getElementById("library").appendChild(newa);
+
             }
 
         }
-        listhtml += "  </ol>\n";
-        listhtml += "</track-list>";
-        document.getElementById("tracklist").innerHTML = listhtml;
-        rainbow(document.getElementsByTagName("li"));
-
+        rainbow(document.getElementsByTagName("a"));
     }
 };
 
