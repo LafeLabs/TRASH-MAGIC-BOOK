@@ -1,4 +1,4 @@
-## [edit-book.html](edit-book.html)
+## [edit-markdown-file.php?filename=trash-magic-music-distro.md](edit-markdown-file.php?filename=trash-magic-music-distro.md)
 
 # TRASH MAGIC MUSIC DISTRO
 
@@ -51,10 +51,24 @@ ON TRASH MAGIC, THE CONTENT CREATOR HELPS TO REPLICATE THE SYSTEM BY WHICH TRASH
 
 EVERYTHING FREE FOR EVERYONE EVERYWHERE RIGHT NOW!
 
-
-
  - [branch.html](branch.html)
  - [read-book.html](read-book.html)
  - [index.html](index.html)
  - [copy.php?from=trash-magic-music-distro.md&README.md](copy.php?from=trash-magic-music-distro.md&README.md)
  - [copy.php?from=album.html&to=index.html](copy.php?from=album.html&to=index.html)
+
+
+THIS IS THE MISSION:
+
+1. REPLICATE THE SERVER
+2. COLLECT CONTENT FROM COMMUNITY
+3. POST CONTENT TO SERVER
+4. SET UP SERVER IN COMMUNITY SPACE
+5. LINK STREET TO SPACE WITH PHYSICAL HYPERTEXT
+6. REPLICATE THIS SET
+
+## LIFE CYCLE OF THE SET
+
+THE SET EXISTS!
+
+THERE IS A COMMUNITY SPACE WITH FREE WIFI AND FREE WEB SERVERS WITH FREE CONTENT
