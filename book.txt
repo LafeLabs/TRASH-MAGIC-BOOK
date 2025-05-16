@@ -15,6 +15,7 @@
     "the-watershed.md",
     "trash-magic-app-development.md",
     "trash-magic-cart.md",
+    "trash-magic-css.md",
     "trash-magic-media-distro.md",
     "trash-magic-music-distro.md",
     "trash-magic-server.md",
